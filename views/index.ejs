@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<style>
+  header {
+   background: linear-gradient(to bottom, #2980b9, #6dd5fa);
+   text-align: center;
+   border-bottom: 3px solid black;
+  border-left: 3px solid black;
+  border-right: 3px solid black;
+  border-top: 3px solid black;
+  }
+  
+  body {
+  background: rgb(238,174,202);
+  background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+  }
+  
+  th {
+   background-color:Tomato;
+    border-bottom: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-top: 1px solid black;
+  }
+  td {
+    background-color:AliceBlue;	
+	border-bottom: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-top: 1px solid black;
+  }
+  
+</style>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/w3.css">
+    <title>Student List</title>
+</head>
+<header>
+    <h3>Student List</h3>
+	</header>
+<body class="w3-container w3-gray w3-mobile">
+    <button class="w3-button w3-aqua w3-right"  onclick="document.getElementById('studentmodal').style.display='block'">+ADD</button><br><br>
+
+    <table class="w3-table-all w3-animate-top w3-card-4 ">
+        <tr>
+            <th>IDNO</th>
+            <th>LASTNAME</th>
+            <th>FIRSTNAME</th>
+            <th>COURSE</th>
+            <th>LEVEL</th>
+            <th>ACTION</th>
+        </tr>
+        <% for (let i = 0; i < studentlist.length; i++) { %>
+            <tr>
+                <td><%= studentlist[i].idno %></td>
+                <td><%= studentlist[i].lastname.toUpperCase() %></td>
+                <td><%= studentlist[i].firstname.toUpperCase() %></td>
+                <td><%= studentlist[i].course.toUpperCase() %></td>
+                <td><%= studentlist[i].level %></td>
+                <td>
+                    
+                    <div class="w3-modal" id='editModal<%= i %>'>
+                        <div class="w3-modal-content w3-animate-zoom">
+                            <div class="w3-container w3-aqua">
+                                <h3>Student</h3>
+                                <span class="w3-button w3-display-topright" onclick="document.getElementById('editModal<%= i %>').style.display='none'">&times;</span>
+                            </div>
+                            <div class="w3-container w3-sand">	
+                                <form id="editForm<%= i %>" method="post" action="/update">
+                                    <input type="hidden" name="index" value="<%= i %>">
+                                    <p>
+                                        <label><b>IDNO</b></label>
+                                        <input type="text" name="idno" value="<%= studentlist[i].idno %>" class="w3-input w3-border">
+                                    </p>
+                                    <p>
+                                        <label><b>LASTNAME</b></label>
+                                        <input type="text" name="lastname" value="<%= studentlist[i].lastname %>" class="w3-input w3-border">
+                                    </p>
+                                    <p>
+                                        <label><b>FIRSTNAME</b></label>
+                                        <input type="text" name="firstname" value="<%= studentlist[i].firstname %>" class="w3-input w3-border">
+                                    </p>
+                                    <p>
+                                        <label><b>COURSE</b></label>
+                                        <input type="text" name="course" value="<%= studentlist[i].course %>" class="w3-input w3-border">
+                                    </p>
+                                    <p>
+                                        <label><b>LEVEL</b></label>
+                                        <input type="text" name="level" value="<%= studentlist[i].level %>" class="w3-input w3-border">
+                                    </p>
+                                    <p>
+                                        
+										<button type="button" onclick="document.getElementById('editModal<%= i %>').style.display='none'" class="w3-button w3-red w3-right ">Cancel</button>										
+                                        <input type="submit" value="&#128427; SAVE" class="w3-button w3-blue w3-right">
+										
+										
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <button class="w3-green w3-button" onclick="document.getElementById('editModal<%= i %>').style.display='block'">&#9998;</button>
+
+                    
+                    <a href="/deletestudent?idno=<%= studentlist[i].idno %>&index=<%= i %>">
+                        <button class="w3-red w3-button">&times;</button>
+                    </a>
+                </td>
+            </tr>
+        <% } %>
+    </table>
+
+    <div class="w3-modal" id="studentmodal">
+        <div class="w3-modal-content w3-animate-zoom">
+            <div class="w3-container w3-aqua">
+                <h3>Student</h3>
+                <span class="w3-button w3-display-topright" onclick="document.getElementById('studentmodal').style.display='none'">&times;</span>
+            </div>
+            <div class="w3-container w3-sand">
+                <form method="post" action="/save">
+                    <p>
+                        <label><b>IDNO</b></label>
+                        <input type="text" name="idno" id="idno" class="w3-input w3-border">
+                    </p>
+                    <p>
+                        <label><b>LASTNAME</b></label>
+                        <input type="text" name="lastname" id="lastname" class="w3-input w3-border">
+                    </p>
+                    <p>
+                        <label><b>FIRSTNAME</b></label>
+                        <input type="text" name="firstname" id="firstname" class="w3-input w3-border">
+                    </p>
+                    <p>
+                        <label><b>COURSE</b></label>
+                        <input type="text" name="course" id="course" class="w3-input w3-border">
+                    </p>
+                    <p>
+                        <label><b>LEVEL</b></label>
+                        <input type="text" name="level" id="level" class="w3-input w3-border">
+                    </p>
+                    <p>
+                        <input type="submit" value="&#128427; SAVE" class="w3-button w3-blue w3-right">
+                    </p>
+                    <br><br>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
